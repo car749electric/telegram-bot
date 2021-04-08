@@ -36,8 +36,12 @@ with open('names.txt', 'r') as f:
 @bot.message_handler(content_types=['text'])
 def start(message):
     if message.text == '/reg':
-        bot.send_message(message.from_user.id, "Как тебя зовут?", reply_markup=types.ReplyKeyboardRemove(selective=False))
-        bot.register_next_step_handler(message, get_name)  # следующий шаг – функция get_name
+        if message.from_user.id in names.keys():
+            bot.send_message(message.from_user.id, f"Постой, я тебя знаю, {names[message.from_user.id]}, за твою голову назн"
+                                                   f"ачена награда!")
+        else:
+            bot.send_message(message.from_user.id, "Как тебя зовут?", reply_markup=types.ReplyKeyboardRemove(selective=False))
+            bot.register_next_step_handler(message, get_name)  # следующий шаг – функция get_name
     else:
         bot.send_message(message.from_user.id, 'Напиши /reg')
 
@@ -70,7 +74,7 @@ def get_age(message):
 def da_net(message):
     if message.text=="ДА":
         bot.send_message(message.from_user.id,"MOLODEC", reply_markup=types.ReplyKeyboardRemove(selective=False))
-        names[str(message.from_user.id)] = name + " " + surname
+        names[message.from_user.id] = name + " " + surname
         #with open('names.txt', 'r') as f:
 
         bot.register_next_step_handler(message, start)
