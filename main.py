@@ -75,7 +75,7 @@ def da_net(message):
 
         bot.register_next_step_handler(message, start)
     elif message.text=="НЕТ":
-        bot.send_message(message.from_user.id, 'Введите имя')
+        bot.send_message(message.from_user.id, 'Введите имя', reply_markup=types.ReplyKeyboardRemove(selective=False))
         bot.register_next_step_handler(message, get_name)
 
 bot.polling(none_stop=True, interval=0)
